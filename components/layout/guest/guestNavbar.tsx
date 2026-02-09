@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/ui/image";
+
 import { Menu, X } from "lucide-react";
 
 const navLinks = [

@@ -2,7 +2,8 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/ui/image";
+
 import { Icon } from "@iconify/react";
 import { usePathname } from "next/navigation";
 import AvatarDropDown from "../../shared/AvatarDropDown";
@@ -92,8 +93,8 @@ export default function Background({
       case "manager":
         return allLinks.filter((link) =>
           ["/", "/tables", "/groups", "/menu", "/balance", "/waiters"].includes(
-            link.href
-          )
+            link.href,
+          ),
         );
 
       case "cook":

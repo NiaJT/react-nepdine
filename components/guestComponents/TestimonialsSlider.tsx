@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/image";
+
 import { Icon } from "@iconify/react";
 
 export default function TestimonialsSlider() {
@@ -29,7 +30,11 @@ export default function TestimonialsSlider() {
   const [cards, setCards] = useState(testimonials);
 
   const handleNext = () => setCards((prev) => [...prev.slice(1), prev[0]]);
-  const handlePrev = () => setCards((prev) => [prev[prev.length - 1], ...prev.slice(0, prev.length - 1)]);
+  const handlePrev = () =>
+    setCards((prev) => [
+      prev[prev.length - 1],
+      ...prev.slice(0, prev.length - 1),
+    ]);
 
   return (
     <div className="relative w-full flex justify-center items-center py-24 overflow-visible mb-5 ">
@@ -51,7 +56,8 @@ export default function TestimonialsSlider() {
       <div className="flex justify-center items-center gap-6 lg:gap-20 overflow-visible w-full max-w-6xl px-4 ">
         {cards.map((t, i) => {
           // Large screen: middle card is enlarged
-          const scale = i === 1 ? "scale-105 md:scale-110 z-20" : "scale-95 z-10";
+          const scale =
+            i === 1 ? "scale-105 md:scale-110 z-20" : "scale-95 z-10";
 
           // Small screen: only show the middle card
           const visibilityClass = i === 1 ? "flex" : "hidden lg:flex";
@@ -65,17 +71,29 @@ export default function TestimonialsSlider() {
               <div className="flex-1 bg-white rounded-3xl border-2 border-[#FB8A22] px-5 pt-8 pb-4 flex flex-col items-center text-center relative">
                 {/* Circular Image */}
                 <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 w-20 h-20 rounded-full overflow-hidden bg-white flex items-center justify-center shadow-md z-20">
-                  <Image src={t.img} alt={t.name} width={105} height={105} className="object-cover" />
+                  <Image
+                    src={t.img}
+                    alt={t.name}
+                    width={105}
+                    height={105}
+                    className="object-cover"
+                  />
                 </div>
 
                 {/* Name & Role */}
                 <div className="mt-8 mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900 leading-tight">{t.name}</h3>
-                  <p className="text-xs text-[#0D0D0D] font-medium mb-3">{t.role}</p>
+                  <h3 className="text-lg font-semibold text-gray-900 leading-tight">
+                    {t.name}
+                  </h3>
+                  <p className="text-xs text-[#0D0D0D] font-medium mb-3">
+                    {t.role}
+                  </p>
                 </div>
 
                 {/* Testimonial Text */}
-                <p className="text-black text-[13px] leading-normal text-center">{t.text}</p>
+                <p className="text-black text-[13px] leading-normal text-center">
+                  {t.text}
+                </p>
               </div>
             </div>
           );

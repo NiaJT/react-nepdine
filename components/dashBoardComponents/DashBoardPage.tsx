@@ -8,7 +8,8 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { ChartLineMultiple } from "@/components/chart-line-interactive";
-import Image from "next/image";
+import Image from "@/components/ui/image";
+
 import { useEffect, useState } from "react";
 import React from "react";
 import { useRestaurantDashboard } from "@/hooks/useRestaurantDashboard";
@@ -41,7 +42,7 @@ export default function DashboardPage() {
   const totalMenuItemsSold =
     data.menu_items_sold_today?.reduce(
       (sum: number, item: { quantity: number }) => sum + item.quantity,
-      0
+      0,
     ) ?? 0;
 
   const totalCustomers = data.total_customers_today ?? 0;
@@ -198,7 +199,7 @@ export default function DashboardPage() {
                           const saleCount = sales[dayIdx]?.[hourIdx] || 0; // ✅ correct order
                           const intensity = maxSale ? saleCount / maxSale : 0;
                           const colorIndex = Math.floor(
-                            intensity * (colors.length - 1)
+                            intensity * (colors.length - 1),
                           );
                           const backgroundColor = colors[colorIndex];
                           return (
