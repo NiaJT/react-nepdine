@@ -1,9 +1,6 @@
-"use client";
-
 import { ReactNode, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useUser } from "@/components/guards/UserContext";
-
+import { useNavigate } from "react-router-dom";
+import { useUser } from "./useUser";
 interface ProtectedRouteProps {
   children: ReactNode;
   requireAuth?: boolean;
@@ -28,42 +25,48 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   requireRole,
   blockSuperAdmin,
 }) => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { user, loading } = useUser();
 
   useEffect(() => {
     if (loading) return;
 
+    // Guest-only logic
     if (guestOnly && user && localStorage.getItem("restaurant_id")) {
-      router.replace("/"); //
+      navigate("/", { replace: true });
+      return;
     }
+
     if (
       guestOnly &&
       user &&
       !localStorage.getItem("restaurant_id") &&
       !user.is_superadmin
     ) {
-      router.replace("/restaurants"); //
+      navigate("/restaurants", { replace: true });
+      return;
     }
+
     if (guestOnly && user && user.is_superadmin) {
-      router.replace("/superadmin/tenants"); //
+      navigate("/superadmin/tenants", { replace: true });
+      return;
     }
 
     // 🔒 Require auth
     if (requireAuth && !user) {
-      router.replace("/home");
+      navigate("/home", { replace: true });
       return;
     }
 
     // 🔒 Require superadmin
     if (requireSuperAdmin && (!user || !user.is_superadmin)) {
-      router.replace("/");
+      navigate("/", { replace: true });
       return;
     }
 
     // 🔒 Block superadmins from tenant area
     if (blockSuperAdmin && user?.is_superadmin) {
-      router.replace("/superadmin/tenants");
+      navigate("/superadmin/tenants", { replace: true });
       return;
     }
 
@@ -74,14 +77,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         : [requireRole];
 
       if (!user?.role || !allowedRoles.includes(user.role)) {
-        router.replace("/tables");
+        navigate("/tables", { replace: true });
         return;
       }
     }
   }, [
     user,
     loading,
-    router,
+    navigate,
     guestOnly,
     requireAuth,
     requireSuperAdmin,
@@ -91,30 +94,21 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   ]);
 
   // Wait until user state is known
-  if (loading) {
-    // You can also render a spinner or skeleton here
-    return null;
-  }
+  if (loading) return null;
 
-  // Guest-only pages
+  // Guest-only rendering
   if (guestOnly) {
     if (user) return null;
     return <>{children}</>;
   }
-  if (guestOnly) {
-    if (!user) return <>{children}</>; // guest, render page
-    // logged in → redirect to dashboard / fallback
-    router.replace(redirectAuthenticatedTo || "/");
-    return null;
-  }
 
   // If auth required but no user → don’t render
   if (requireAuth && !user) return null;
-  if (requireAuth && user?.is_superadmin) return null;
-  // If superadmin required but user isn’t → don’t render
+
+  // Superadmin required
   if (requireSuperAdmin && (!user || !user.is_superadmin)) return null;
 
-  // If role required but doesn’t match → don’t render
+  // Role required
   if (
     requireRole &&
     !user?.is_superadmin &&

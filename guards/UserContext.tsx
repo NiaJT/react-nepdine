@@ -1,37 +1,13 @@
-"use client";
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
-import { axiosInstance } from "@/lib/axios.instance";
-
-interface User {
-  id: string;
-  email: string;
-  full_name: string;
-  role: "admin" | "manager" | "waiter" | "cook" | null;
-  is_active: "active" | "inactive";
-  is_superadmin: boolean;
-}
-
-interface UserContextProps {
-  user: User | null;
-  loading: boolean;
-  setUser: (user: User | null) => void; // ✅ expose setUser
-  refreshUser: () => Promise<User>;
-  logout: () => Promise<void>;
-}
-
-const UserContext = createContext<UserContextProps | undefined>(undefined);
-
+import { useState, useEffect } from "react";
+import { axiosInstance } from "../lib/axios.instance";
+import type { User } from "./UserContext.instance";
+import { UserContext } from "./UserContext.instance";
+import type { ReactNode } from "react";
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const refreshUser = async () => {
+  const refreshUser = async (): Promise<User | null> => {
     try {
       const res = await axiosInstance.get("/auth/me");
       setUser(res.data);
@@ -63,10 +39,4 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </UserContext.Provider>
   );
-};
-
-export const useUser = () => {
-  const context = useContext(UserContext);
-  if (!context) throw new Error("useUser must be used within UserProvider");
-  return context;
 };
