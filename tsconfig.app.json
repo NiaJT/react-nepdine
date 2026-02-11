@@ -28,5 +28,15 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "components",
+    "guards",
+    "hooks",
+    "layouts",
+    "lib",
+    "pages",
+    "providers",
+    "validation-schema"
+  ]
 }
