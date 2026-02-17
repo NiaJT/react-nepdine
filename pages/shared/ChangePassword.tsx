@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { changePasswordSchema } from "../../../../validation-schema/changePasswordSchema";
 import { ChangePassword } from "@/hooks/updatePassword";
 import { useUser } from "@/components/guards/UserContext";
-import { useRouter } from "next/navigation";
+import { useRouter } from "./../../lib/useRouter";
 
 type ChangePasswordFormValues = z.infer<typeof changePasswordSchema>;
 

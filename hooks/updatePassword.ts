@@ -8,7 +8,8 @@ import toast from "react-hot-toast";
 import { getApiErrorMessage } from "@/lib/types/globalTypes/api-response";
 import z from "zod";
 import { useLogout } from "./logout";
-import { useRouter } from "next/navigation";
+import { useRouter } from "./../../lib/useRouter";
+
 type ChangePasswordFormValues = z.infer<typeof changePasswordSchema>;
 type ChangePasswordPayload = ChangePasswordFormValues & {
   email: string;

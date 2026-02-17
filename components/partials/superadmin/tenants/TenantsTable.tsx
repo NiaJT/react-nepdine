@@ -16,7 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/lib/useRouter";
 
 interface TenantsTableProps {
   tenants: Tenant[];

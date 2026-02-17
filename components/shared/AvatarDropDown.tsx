@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
+import { useRouter } from "./../../lib/useRouter";
 
 export default function AvatarDropDown({
   collapsed = false,

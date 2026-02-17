@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import Image from "@/components/ui/image";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "./../../lib/useRouter";
+
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,

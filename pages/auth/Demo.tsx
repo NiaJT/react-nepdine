@@ -6,7 +6,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 
 import { Utensils, Users, Rocket, LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "./../../lib/useRouter";
+
 import React from "react";
 import { useLogout } from "@/hooks/logout";
 

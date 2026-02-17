@@ -3,7 +3,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "@/components/ui/image";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "./../../lib/useRouter";
+
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios.instance";
 import toast from "react-hot-toast";

@@ -3,7 +3,8 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios.instance";
-import { useRouter } from "next/navigation";
+import { useRouter } from "./../../lib/useRouter";
+
 import toast from "react-hot-toast";
 import { useUser } from "@/components/guards/UserContext";
 

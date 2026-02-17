@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "./../../lib/useRouter";
+
 import toast from "react-hot-toast";
 import Image from "@/components/ui/image";
 
