@@ -5,9 +5,12 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   alt: string;
   width?: number | string;
   height?: number | string;
-  placeholder?: string; // blurred placeholder
+  fill?: boolean;
+  priority?: boolean; // ✅ new prop
+  placeholder?: string;
   className?: string;
   style?: React.CSSProperties;
+  containerStyle?: React.CSSProperties; // optional wrapper styling
 }
 
 const Image: React.FC<ImageProps> = ({
@@ -15,9 +18,12 @@ const Image: React.FC<ImageProps> = ({
   alt,
   width,
   height,
+  fill = false,
+  priority = false, // default false
   placeholder,
   className,
   style,
+  containerStyle,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false);
@@ -25,11 +31,11 @@ const Image: React.FC<ImageProps> = ({
   return (
     <div
       style={{
-        width,
-        height,
         position: "relative",
+        width: fill ? "100%" : width,
+        height: fill ? "100%" : height,
         overflow: "hidden",
-        ...style,
+        ...containerStyle,
       }}
       className={className}
     >
@@ -38,34 +44,35 @@ const Image: React.FC<ImageProps> = ({
         <img
           src={placeholder}
           alt="placeholder"
+          aria-hidden="true"
           style={{
+            position: "absolute",
+            inset: 0,
             width: "100%",
             height: "100%",
+            objectFit: "cover",
             filter: "blur(20px)",
             transform: "scale(1.05)",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            objectFit: "cover",
             transition: "opacity 0.3s",
           }}
         />
       )}
 
-      {/* Main image */}
+      {/* Main Image */}
       <img
         src={src}
         alt={alt}
-        width={width}
-        height={height}
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"} // ✅ use priority
         style={{
-          width: "100%",
-          height: "100%",
+          position: fill ? "absolute" : "relative",
+          inset: fill ? 0 : undefined,
+          width: fill ? "100%" : width,
+          height: fill ? "100%" : height,
           objectFit: "cover",
           opacity: loaded ? 1 : 0,
           transition: "opacity 0.3s ease-in-out",
           display: "block",
+          ...style,
         }}
         onLoad={() => setLoaded(true)}
         {...props}
