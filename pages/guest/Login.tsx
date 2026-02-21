@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import Image from "@/components/ui/image";
 
 import { Eye, EyeOff } from "lucide-react";
-import { loginSchema } from "../../../../validation-schema/loginSchema";
+import { loginSchema } from "@/validation-schema/loginSchema";
 import {
   Form,
   FormControl,
@@ -24,11 +24,9 @@ import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios.instance";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import {
-  ApiError,
-  getApiErrorMessage,
-} from "@/lib/types/globalTypes/api-response";
-import { useUser } from "@/components/guards/UserContext";
+import { getApiErrorMessage } from "@/lib/types/globalTypes/api-response";
+import type { ApiError } from "@/lib/types/globalTypes/api-response";
+import { useUser } from "@/guards/useUser";
 import { GoogleLogin } from "@react-oauth/google";
 type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {

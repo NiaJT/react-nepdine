@@ -20,13 +20,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { registerSchema } from "../../../../validation-schema/registerSchema";
+import { registerSchema } from "@/validation-schema/registerSchema";
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios.instance";
 import { getApiErrorMessage } from "@/lib/types/globalTypes/api-response";
 import { GoogleLogin } from "@react-oauth/google";
-import { useUser } from "@/components/guards/UserContext";
-
+import { useUser } from "@/guards/useUser";
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {

@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import PublicNavbar from "@/components/layout/guest/guestNavbar";
-import { forgotPasswordSchema } from "../../../../validation-schema/changePasswordSchema";
+import { forgotPasswordSchema } from "@/validation-schema/changePasswordSchema";
 import { ResetPassword } from "@/hooks/updatePassword";
 
 type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;

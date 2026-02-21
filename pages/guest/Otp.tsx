@@ -18,17 +18,25 @@ export default function OTPPage() {
   const [timer, setTimer] = useState(45);
   const [email, setEmail] = useState<string | null>(null);
 
-  // Redirect if no email
   useEffect(() => {
     const storedEmail = sessionStorage.getItem("email");
+
     if (!storedEmail) {
-      router.replace("/register");
       toast.error("No email found. Please register first.");
-    } else {
-      setEmail(storedEmail);
+      router.replace("/register");
+      return;
+    }
+
+    // Wrap setEmail in a microtask to avoid the warning
+    queueMicrotask(() => setEmail(storedEmail));
+  }, [router]);
+
+  useEffect(() => {
+    if (email) {
+      // Focus first input
       inputRefs.current[0]?.focus();
     }
-  }, [router]);
+  }, [email]);
 
   // Timer for resend cooldown
   useEffect(() => {
