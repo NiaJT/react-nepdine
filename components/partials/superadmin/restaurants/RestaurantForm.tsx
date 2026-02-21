@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,7 +14,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Calendar24 } from "@/components/ui/date-time-picker";
-import { useGetTenants, Tenant } from "@/hooks/superAdmin/useTenants";
+import { useGetTenants } from "@/hooks/superAdmin/useTenants";
+import type { Tenant } from "@/hooks/superAdmin/useTenants";
+
 import {
   Command,
   CommandInput,
@@ -29,17 +30,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useParams } from "next/navigation";
+import { useParams } from "react-router-dom";
+import {
+  restaurantSchema,
+  type RestaurantFormValues,
+} from "@/validation-schema/restaurant";
 
-export const restaurantSchema = z.object({
-  tenant_id: z.uuid("Select a valid tenant"),
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  location: z.string().optional(),
-  active: z.enum(["active", "inactive"]),
-  created_at: z.date(),
-});
-
-export type RestaurantFormValues = z.infer<typeof restaurantSchema>;
 interface RestaurantFormProps {
   restaurant?: RestaurantFormValues & { id?: string };
   onSubmit: (values: RestaurantFormValues) => void;
@@ -90,7 +86,7 @@ export function RestaurantForm({
             name="tenant_id"
             render={({ field }) => {
               const selectedTenant = tenants.find(
-                (t) => t.id === field.value
+                (t) => t.id === field.value,
               )?.name;
               return (
                 <FormItem>

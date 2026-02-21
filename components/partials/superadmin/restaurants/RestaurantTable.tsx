@@ -1,5 +1,5 @@
 "use client";
-import { Restaurant } from "@/hooks/superAdmin/useRestaurant";
+import type { Restaurant } from "@/hooks/superAdmin/useRestaurant";
 import {
   Table,
   TableBody,
