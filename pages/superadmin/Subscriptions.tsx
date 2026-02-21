@@ -24,9 +24,11 @@ import {
   useDeleteSubscription,
   useGetSubscriptions,
   useUpdateSubscription,
-  Subscription,
 } from "@/hooks/superAdmin/useSubscriptions";
-import { useGetFeatures, Feature } from "@/hooks/superAdmin/useFeatures";
+import type { Subscription } from "@/hooks/superAdmin/useSubscriptions";
+import { useGetFeatures } from "@/hooks/superAdmin/useFeatures";
+import type { Feature } from "@/hooks/superAdmin/useFeatures";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";

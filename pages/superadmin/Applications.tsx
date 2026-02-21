@@ -24,10 +24,10 @@ import toast from "react-hot-toast";
 import Image from "@/components/ui/image";
 
 import {
-  IApplication,
   useGetApplications,
   useVerifyApplication,
 } from "@/hooks/superAdmin/useVerify";
+import type { IApplication } from "./../../hooks/superAdmin/useVerify";
 
 export default function ApplicationsPage() {
   const [page, setPage] = useState(1);

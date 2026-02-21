@@ -14,10 +14,8 @@ import {
   useGetSuperAdminUsers,
   useDeleteSuperAdmin,
 } from "@/hooks/superAdmin/useSuperadmin";
-import {
-  SuperAdminForm,
-  SuperAdminFormValues,
-} from "@/components/partials/superadmin/superadmin-users/SuperAdminForm";
+import { SuperAdminForm } from "@/components/partials/superadmin/superadmin-users/SuperAdminForm";
+import type { SuperAdminFormValues } from "@/components/partials/superadmin/superadmin-users/SuperAdminForm";
 import { SuperAdminTable } from "@/components/partials/superadmin/superadmin-users/SuperadminTable";
 
 export default function SuperAdminPage() {

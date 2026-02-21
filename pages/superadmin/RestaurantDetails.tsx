@@ -1,15 +1,13 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { DeleteConfirmDialog } from "@/components/shared/DeleteConfirmDialogue";
 import { RestaurantUsersTable } from "@/components/partials/superadmin/users/UserTable";
-import {
-  UserForm,
-  RestaurantUserFormValues,
-} from "@/components/partials/superadmin/users/UserForm";
+import { UserForm } from "@/components/partials/superadmin/users/UserForm";
+import type { RestaurantUserFormValues } from "@/components/partials/superadmin/users/UserForm";
 import {
   useGetRestaurant,
   // useUpdateRestaurantUser,
@@ -19,7 +17,7 @@ import {
   useAddUserToRestaurant,
   useDeleteUserFromRestaurant,
 } from "@/hooks/superAdmin/useUsers";
-import { ProvidedUser } from "@/hooks/superAdmin/useUsers";
+import type { ProvidedUser } from "@/hooks/superAdmin/useUsers";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
 export default function RestaurantDetailPage() {

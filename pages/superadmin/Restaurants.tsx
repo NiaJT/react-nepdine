@@ -11,17 +11,15 @@ import {
 } from "@/components/ui/dialog";
 import { DeleteConfirmDialog } from "@/components/shared/DeleteConfirmDialogue";
 
+import { RestaurantForm } from "@/components/partials/superadmin/restaurants/RestaurantForm";
+import type { RestaurantFormValues } from "@/components/partials/superadmin/restaurants/RestaurantForm";
 import {
-  RestaurantForm,
-  RestaurantFormValues,
-} from "@/components/partials/superadmin/restaurants/RestaurantForm";
-import {
-  Restaurant,
   useGetRestaurants,
   useAddRestaurant,
   useUpdateRestaurant,
   useDeleteRestaurant,
 } from "@/hooks/superAdmin/useRestaurant";
+import type { Restaurant } from "@/hooks/superAdmin/useRestaurant";
 import { RestaurantsTable } from "@/components/partials/superadmin/restaurants/RestaurantTable";
 
 export default function RestaurantsPage() {
@@ -32,10 +30,10 @@ export default function RestaurantsPage() {
   const deleteRestaurantApi = useDeleteRestaurant();
 
   const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(
-    null
+    null,
   );
   const [deleteRestaurant, setDeleteRestaurant] = useState<Restaurant | null>(
-    null
+    null,
   );
   const [showForm, setShowForm] = useState(false);
 

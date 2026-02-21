@@ -20,7 +20,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { IFAQ, useGetFAQs } from "@/hooks/superAdmin/useFAQ";
+import { useGetFAQs } from "@/hooks/superAdmin/useFAQ";
+import type { IFAQ } from "@/hooks/superAdmin/useFAQ";
 
 export default function FAQTable() {
   const [page, setPage] = useState(1);
@@ -100,7 +101,7 @@ export default function FAQTable() {
                             <p>
                               <strong>Date:</strong>{" "}
                               {new Date(
-                                selectedFAQ.created_at
+                                selectedFAQ.created_at,
                               ).toLocaleString()}
                             </p>
                           </div>

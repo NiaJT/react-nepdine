@@ -1,12 +1,10 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useGetTenant } from "@/hooks/superAdmin/useTenants";
-import {
-  useGetTenantRestaurants,
-  Restaurant,
-} from "@/hooks/superAdmin/useTenants";
+import { useGetTenantRestaurants } from "@/hooks/superAdmin/useTenants";
+import type { Restaurant } from "@/hooks/superAdmin/useTenants";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,10 +17,8 @@ import {
   useDeleteRestaurant,
   useUpdateRestaurant,
 } from "@/hooks/superAdmin/useRestaurant";
-import {
-  RestaurantForm,
-  RestaurantFormValues,
-} from "@/components/partials/superadmin/restaurants/RestaurantForm";
+import { RestaurantForm } from "@/components/partials/superadmin/restaurants/RestaurantForm";
+import type { RestaurantFormValues } from "@/components/partials/superadmin/restaurants/RestaurantForm";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { RestaurantsTable } from "@/components/partials/superadmin/restaurants/RestaurantTable";
 import { DeleteConfirmDialog } from "@/components/shared/DeleteConfirmDialogue";
@@ -40,10 +36,10 @@ export default function TenantDetailPage() {
   const deleteRestaurantApi = useDeleteRestaurant();
 
   const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(
-    null
+    null,
   );
   const [deleteRestaurant, setDeleteRestaurant] = useState<Restaurant | null>(
-    null
+    null,
   );
 
   const handleCreate = (values: RestaurantFormValues) => {

@@ -1,17 +1,15 @@
 "use client";
 import { useState } from "react";
-import {
-  TenantForm,
-  TenantFormValues,
-} from "@/components/partials/superadmin/tenants/TenantForm";
+import { TenantForm } from "@/components/partials/superadmin/tenants/TenantForm";
+import type { TenantFormValues } from "@/components/partials/superadmin/tenants/TenantForm";
 import { TenantsTable } from "@/components/partials/superadmin/tenants/TenantsTable";
 import {
-  Tenant,
   useGetTenants,
   useUpdateTenant,
   useDeleteTenant,
   useOnboardTenant,
 } from "@/hooks/superAdmin/useTenants";
+import type { Tenant } from "@/hooks/superAdmin/useTenants";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
