@@ -27,7 +27,7 @@ import {
 import { axiosInstance } from "@/lib/axios.instance";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { BalanceItem } from "../../../../../validation-schema/balanceSchema";
+import type { BalanceItem } from "@/validation-schema/balanceSchema";
 import BalancePageSkeleton from "@/components/LoadingPages/BalanceLoad";
 
 type DisplayRow = {
@@ -107,7 +107,9 @@ export default function BalancePage() {
 
   useEffect(() => {
     const id = localStorage.getItem("restaurant_id");
-    setRestaurantId(id);
+    queueMicrotask(() => {
+      setRestaurantId(id);
+    });
   }, []);
 
   const { data: balances = [], isPending } = useQuery({
@@ -124,7 +126,7 @@ export default function BalancePage() {
               from_date: formatLocalDate(fromDate),
               to_date: formatLocalDate(toDate),
             },
-          }
+          },
         );
       } else {
         res = await axiosInstance.get(
@@ -135,7 +137,7 @@ export default function BalancePage() {
               from_date: formatLocalDate(fromDate),
               to_date: formatLocalDate(new Date()),
             },
-          }
+          },
         );
       }
       console.log("API Response:", res.data);
@@ -174,7 +176,7 @@ export default function BalancePage() {
           totalPages - 3,
           totalPages - 2,
           totalPages - 1,
-          totalPages
+          totalPages,
         );
       } else {
         pages.push(1, "...", page - 1, page, page + 1, "...", totalPages);
@@ -188,47 +190,61 @@ export default function BalancePage() {
     const now = new Date();
 
     if (dateRange === "All") {
-      setFromDate(undefined);
+      queueMicrotask(() => setFromDate(undefined));
     } else if (dateRange === "Today") {
-      setFromDate(now);
-      setEnableCalendar(false);
-      setToDate(undefined);
+      queueMicrotask(() => {
+        setFromDate(now);
+        setEnableCalendar(false);
+        setToDate(undefined);
+      });
     } else if (dateRange === "Yesterday") {
       const yesterday = new Date();
       yesterday.setDate(now.getDate() - 1);
-      setFromDate(yesterday);
-      setEnableCalendar(false);
-      setToDate(undefined);
+      queueMicrotask(() => {
+        setFromDate(yesterday);
+        setEnableCalendar(false);
+        setToDate(undefined);
+      });
     } else if (dateRange === "This Week") {
       const startOfWeek = new Date(now);
       startOfWeek.setDate(now.getDate() - now.getDay());
-      setFromDate(startOfWeek);
-      setEnableCalendar(false);
-      setToDate(undefined);
+      queueMicrotask(() => {
+        setFromDate(startOfWeek);
+        setEnableCalendar(false);
+        setToDate(undefined);
+      });
     } else if (dateRange === "This Month") {
       const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      setFromDate(startOfMonth);
-      setEnableCalendar(false);
-      setToDate(undefined);
+      queueMicrotask(() => {
+        setFromDate(startOfMonth);
+        setEnableCalendar(false);
+        setToDate(undefined);
+      });
     } else if (dateRange === "Last 6 Months") {
       const last6Months = new Date(now);
       last6Months.setMonth(now.getMonth() - 6);
-      setFromDate(last6Months);
-      setEnableCalendar(false);
-      setToDate(undefined);
+      queueMicrotask(() => {
+        setFromDate(last6Months);
+        setEnableCalendar(false);
+        setToDate(undefined);
+      });
     } else if (dateRange === "This Year") {
       const startOfYear = new Date(now.getFullYear(), 0, 1);
-      setFromDate(startOfYear);
-      setEnableCalendar(false);
-      setToDate(undefined);
+      queueMicrotask(() => {
+        setFromDate(startOfYear);
+        setEnableCalendar(false);
+        setToDate(undefined);
+      });
     } else if (dateRange === "Custom") {
-      setEnableCalendar(true);
+      queueMicrotask(() => setEnableCalendar(true));
     }
   }, [dateRange, enableCalendar]);
 
   const computed = (balances ?? [])
     .filter((row: { group_name: string }) =>
-      query ? row.group_name?.toLowerCase().includes(query.toLowerCase()) : true
+      query
+        ? row.group_name?.toLowerCase().includes(query.toLowerCase())
+        : true,
     )
     .filter((row: { last_closed_at: string | number | Date }) => {
       if (!fromDate) return true;
@@ -249,6 +265,7 @@ export default function BalancePage() {
       (row: { last_closed_at: string | number | Date }) => {
         if (!row.last_closed_at) return false;
         const rowDate = new Date(row.last_closed_at);
+        let yesterday;
 
         switch (dateRange) {
           case "Today":
@@ -258,7 +275,7 @@ export default function BalancePage() {
               rowDate.getDate() === now.getDate()
             );
           case "Yesterday":
-            const yesterday = new Date(now);
+            yesterday = new Date(now);
             yesterday.setDate(now.getDate() - 1);
             return (
               rowDate.getFullYear() === yesterday.getFullYear() &&
@@ -271,7 +288,7 @@ export default function BalancePage() {
           default:
             return true;
         }
-      }
+      },
     );
   };
 
@@ -321,7 +338,7 @@ export default function BalancePage() {
 
   const toggleExpand = (id: string) => {
     setExpandedRows((prev) =>
-      prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id],
     );
   };
 
@@ -417,7 +434,9 @@ export default function BalancePage() {
                   <Calendar
                     mode="range"
                     selected={{ from: fromDate, to: toDate }}
-                    onSelect={(range) => {
+                    onSelect={(
+                      range: { from?: Date; to?: Date } | undefined,
+                    ) => {
                       if (!range) return;
                       setFromDate(range.from);
                       setToDate(range.to);
@@ -425,11 +444,11 @@ export default function BalancePage() {
                     }}
                     captionLayout="dropdown"
                     className="rounded-lg border shadow-sm"
-                    hidden={{ after: new Date() }} // disables future dates
+                    hidden={{ after: new Date() }}
                     footer={
                       <div className="flex justify-start gap-2 p-2">
                         <button
-                          onClick={() => {
+                          onClick={(): void => {
                             const today = new Date();
                             setFromDate(today);
                             setToDate(today);
@@ -440,7 +459,7 @@ export default function BalancePage() {
                           Today
                         </button>
                         <button
-                          onClick={() => {
+                          onClick={(): void => {
                             setFromDate(undefined);
                             setToDate(undefined);
                             setDateRange("Custom");
@@ -671,7 +690,7 @@ export default function BalancePage() {
                 <span key={idx} className="px-2 text-gray-500">
                   {p}
                 </span>
-              )
+              ),
             )}
             <Button
               variant="outline"
