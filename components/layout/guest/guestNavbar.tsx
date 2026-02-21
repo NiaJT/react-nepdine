@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
+import Link from "@/lib/link";
 import Image from "@/components/ui/image";
 
 import { Menu, X } from "lucide-react";
@@ -62,14 +62,14 @@ export default function PublicNavbar() {
         <div className="md:hidden bg-white shadow-md">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block px-3 py-2 rounded-md text-gray-700 font-medium hover:bg-[#FB8A22]/10 hover:text-[#FB8A22] transition"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
+              <div key={link.href} onClick={() => setIsMobileMenuOpen(false)}>
+                <Link
+                  href={link.href}
+                  className="block px-3 py-2 rounded-md text-gray-700 font-medium hover:bg-[#FB8A22]/10 hover:text-[#FB8A22] transition"
+                >
+                  {link.label}
+                </Link>
+              </div>
             ))}
           </div>
         </div>

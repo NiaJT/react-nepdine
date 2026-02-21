@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import Link from "@/lib/link";
 import Image from "@/components/ui/image";
 
 import { Icon } from "@iconify/react";
 import { usePathname } from "next/navigation";
 import AvatarDropDown from "../../shared/AvatarDropDown";
-import { useUser } from "@/components/guards/UserContext";
+import { useUser } from "@/guards/useUser";
 
 const allLinks = [
   { href: "/", label: "Dashboard", icon: "mdi:home-variant" },
@@ -51,7 +51,7 @@ export default function Background({
   ];
 
   useEffect(() => {
-    setMounted(true);
+    queueMicrotask(() => setMounted(true));
     const update = () => setIsMobile(window.innerWidth < 1200);
     update();
     window.addEventListener("resize", update);

@@ -1,48 +1,35 @@
-"use client";
-
-import Link from "next/link";
-import { useState } from "react";
-import Image from "@/components/ui/image";
-
-import { Inter } from "next/font/google";
-import { usePathname } from "next/navigation";
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import Image from "@/components/ui/image"; // Keep if you have your own Image component
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav
-      className={`${inter.className} bg-[#FAE8DC] shadow-md top-0 z-50 w-full relative`}
-    >
+    <nav className="bg-[#FAE8DC] shadow-md top-0 z-50 w-full relative">
       <div className="flex justify-between items-center h-16 max-w-full px-4 md:px-6 lg:px-8">
         {/* Left: Logo + Nepdine */}
         <div className="flex items-center space-x-2">
           <Image src="/home_logo.png" alt="Logo" width={40} height={40} />
-          <Link href="/" className="text-xl font-bold whitespace-nowrap">
+          <Link to="/" className="text-xl font-bold whitespace-nowrap">
             Nepdine
           </Link>
         </div>
 
         {/* Center: Desktop menu */}
-        <div className="hidden md:flex flex-1 justify-center space-x-8 ">
-          <NavLink href="/home">Home</NavLink>
-          <NavLink href="/about">About Us</NavLink>
-          <NavLink href="/features">Features</NavLink>
-          <NavLink href="/pricing">Pricing</NavLink>
-          <NavLink href="/contact">Contact Us</NavLink>
+        <div className="hidden md:flex flex-1 justify-center space-x-8">
+          <NavLink to="/home">Home</NavLink>
+          <NavLink to="/about">About Us</NavLink>
+          <NavLink to="/features">Features</NavLink>
+          <NavLink to="/pricing">Pricing</NavLink>
+          <NavLink to="/contact">Contact Us</NavLink>
         </div>
 
         {/* Right: Login button + Mobile menu button */}
         <div className="flex items-center space-x-4">
-          {/* Login button */}
           <Link
-            href="/login"
-            className="px-7 py-2 w-full bg-gradient-to-r from-[#FB8A22] to-[#EA454C] text-white text-sm rounded-3xl hover:bg-[#E95322] whitespace-nowrap shadow-md  transform hover:scale-105 transition-all duration-300"
+            to="/login"
+            className="px-7 py-2 w-full bg-gradient-to-r from-[#FB8A22] to-[#EA454C] text-white text-sm rounded-3xl hover:bg-[#E95322] whitespace-nowrap shadow-md transform hover:scale-105 transition-all duration-300"
           >
             Login
           </Link>
@@ -58,7 +45,6 @@ export default function Navbar() {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 {isOpen ? (
                   <path
@@ -90,19 +76,19 @@ export default function Navbar() {
         }`}
       >
         <div className="flex flex-col space-y-2 py-3 pr-3">
-          <NavLink href="/home" mobile onClick={() => setIsOpen(false)}>
+          <NavLink to="/home" mobile onClick={() => setIsOpen(false)}>
             Home
           </NavLink>
-          <NavLink href="/about" mobile onClick={() => setIsOpen(false)}>
+          <NavLink to="/about" mobile onClick={() => setIsOpen(false)}>
             About Us
           </NavLink>
-          <NavLink href="/features" mobile onClick={() => setIsOpen(false)}>
+          <NavLink to="/features" mobile onClick={() => setIsOpen(false)}>
             Features
           </NavLink>
-          <NavLink href="/pricing" mobile onClick={() => setIsOpen(false)}>
+          <NavLink to="/pricing" mobile onClick={() => setIsOpen(false)}>
             Pricing
           </NavLink>
-          <NavLink href="/contact" mobile onClick={() => setIsOpen(false)}>
+          <NavLink to="/contact" mobile onClick={() => setIsOpen(false)}>
             Contact Us
           </NavLink>
         </div>
@@ -113,22 +99,21 @@ export default function Navbar() {
 
 // NavLink Component
 function NavLink({
-  href,
+  to,
   children,
-
   onClick,
 }: {
-  href: string;
+  to: string;
   children: React.ReactNode;
   mobile?: boolean;
   onClick?: () => void;
 }) {
-  const pathname = usePathname();
-  const isActive = pathname === href;
+  const location = useLocation();
+  const isActive = location.pathname === to;
 
   return (
     <Link
-      href={href}
+      to={to}
       onClick={onClick}
       className={`relative group text-[#888888] hover:text-black font-medium transition-colors duration-300 py-5 ${
         isActive ? "text-black" : ""

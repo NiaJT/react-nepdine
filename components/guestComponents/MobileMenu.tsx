@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Link from "@/lib/link";
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,14 +52,14 @@ export default function MobileMenu() {
         <div className="absolute right-0 top-full mt-1 bg-white shadow-lg border border-gray-200 w-48 text-right rounded-b-xl">
           <div className="flex flex-col space-y-2 py-3 pr-3">
             {menuItems.map((item, idx) => (
-              <Link
-                key={idx}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="block px-4 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#FB8A22] transition-all duration-200"
-              >
-                {item.name}
-              </Link>
+              <div key={idx} onClick={() => setIsOpen(false)}>
+                <Link
+                  href={item.href}
+                  className="block px-4 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#FB8A22] transition-all duration-200"
+                >
+                  {item.name}
+                </Link>
+              </div>
             ))}
           </div>
         </div>

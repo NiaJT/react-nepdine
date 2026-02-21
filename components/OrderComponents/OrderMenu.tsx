@@ -66,7 +66,6 @@ export const MobileCart: React.FC<
   show,
   onClose,
   cart,
-  menu,
   foodFilters,
   increase,
   decrease,
@@ -177,7 +176,6 @@ export const MobileCart: React.FC<
 
 export const DesktopCart: React.FC<CartProps> = ({
   cart,
-  menu,
   foodFilters,
   increase,
   decrease,

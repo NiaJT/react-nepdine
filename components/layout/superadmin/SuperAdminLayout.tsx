@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Link from "@/lib/link";
 import { cn } from "@/lib/utils";
 import {
   Menu,
@@ -67,7 +67,7 @@ export function SuperAdminLayout({ children }: SuperadminLayoutProps) {
       <aside
         className={cn(
           "fixed top-0 left-0 h-full w-64 bg-white shadow-md z-50 transform transition-transform duration-200",
-          open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          open ? "translate-x-0" : "-translate-x-full md:translate-x-0",
         )}
       >
         {/* Header */}
@@ -88,7 +88,8 @@ export function SuperAdminLayout({ children }: SuperadminLayoutProps) {
                 href={item.href}
                 className={cn(
                   "flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded",
-                  isActive && "bg-gray-200 text-blue-700 font-semibold scale-3d"
+                  isActive &&
+                    "bg-gray-200 text-blue-700 font-semibold scale-3d",
                 )}
                 onClick={() => setOpen(false)}
               >

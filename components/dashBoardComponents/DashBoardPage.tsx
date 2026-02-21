@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import Link from "@/lib/link";
 import {
   Card,
   CardHeader,
@@ -26,7 +26,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const id = localStorage.getItem("restaurant_id") || "";
-    setRestaurantId(id);
+    queueMicrotask(() => setRestaurantId(id));
   }, []);
   const { data, isLoading, isError } = useRestaurantDashboard(restaurantId);
 
