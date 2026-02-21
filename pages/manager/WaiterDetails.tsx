@@ -1,5 +1,6 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "@/lib/useRouter"; 
+import { useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -28,8 +29,8 @@ import Image from "@/components/ui/image";
 import { axiosInstance } from "@/lib/axios.instance";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { WaiterFormValues } from "../../../../../../validation-schema/waiterSchema";
-import { OrderResponse } from "../../../../../../validation-schema/orderSchema";
+import type { WaiterFormValues } from "@/validation-schema/waiterSchema";
+import { OrderResponse } from "@/validation-schema/orderSchema";
 import { ChevronDownIcon } from "lucide-react";
 import WaiterDetailPageSkeleton from "@/components/LoadingPages/WaiterIdLoad";
 
@@ -45,7 +46,7 @@ export default function WaiterDetailPage() {
 
   useEffect(() => {
     const id = localStorage.getItem("restaurant_id");
-    setRestaurantId(id);
+     queueMicrotask(() =>setRestaurantId(id));
   }, []);
 
   useEffect(() => {

@@ -8,7 +8,9 @@ import Image from "@/components/ui/image";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios.instance";
 import z, { ZodError } from "zod";
-import { Resolver, useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
+import type { Resolver } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -28,11 +30,9 @@ import {
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
 import axios from "axios";
-import { menuSchema } from "../../../../../validation-schema/menuSchema";
-import {
-  MenuIngredientFormValues,
-  menuIngredientsSchema,
-} from "../../../../../validation-schema/menuIngredientsSchema";
+import { menuSchema } from "@/validation-schema/menuSchema";
+import { menuIngredientsSchema } from "@/validation-schema/menuIngredientsSchema";
+import type { MenuIngredientFormValues } from "@/validation-schema/menuIngredientsSchema";
 import MainMenuPageSkeleton from "@/components/LoadingPages/MainMenuLoad";
 
 type MenuFormValues = z.infer<typeof menuSchema>;
@@ -73,7 +73,7 @@ export default function MenuPage() {
 
   useEffect(() => {
     const id = localStorage.getItem("restaurant_id");
-    setRestaurantId(id);
+    queueMicrotask(() => setRestaurantId(id));
   }, []);
 
   const {
