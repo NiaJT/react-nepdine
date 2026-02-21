@@ -14,8 +14,8 @@ import {
 import { ChevronDownIcon } from "lucide-react";
 import { axiosInstance } from "@/lib/axios.instance";
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { WaiterFormValues } from "../../../../../validation-schema/waiterSchema";
-import { OrderResponse } from "../../../../../validation-schema/orderSchema";
+import type { WaiterFormValues } from "@/validation-schema/waiterSchema";
+import type { OrderResponse } from "@/validation-schema/orderSchema";
 import {
   Table,
   TableBody,
@@ -33,7 +33,7 @@ export default function WaitersPage() {
 
   useEffect(() => {
     const id = localStorage.getItem("restaurant_id");
-    setRestaurantId(id);
+    queueMicrotask(() => setRestaurantId(id));
   }, []);
 
   const handleSelectWaiter = (waiterId: string) => {
