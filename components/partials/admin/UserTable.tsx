@@ -10,14 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import {
-  ProvidedUser,
-  useDeleteUserFromRestaurant,
-} from "@/hooks/superAdmin/useUsers";
+import { useDeleteUserFromRestaurant } from "@/hooks/superAdmin/useUsers";
+import type { ProvidedUser } from "@/hooks/superAdmin/useUsers";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import EditUserDialog, {
-  EditUserPayload,
-} from "@/components/partials/admin/EditUserDialog";
+import EditUserDialog from "@/components/partials/admin/EditUserDialog";
+import type { EditUserPayload } from "@/components/partials/admin/EditUserDialog";
 import { DeleteConfirmDialog } from "@/components/shared/DeleteConfirmDialogue";
 
 interface UserTableProps {
@@ -123,7 +120,7 @@ export default function UserTable({
                   <TableCell className="py-3 px-4">
                     <span
                       className={`px-3 py-1 text-xs font-medium rounded-md ${getStatusBadge(
-                        user.user.is_active ? "active" : "inactive"
+                        user.user.is_active ? "active" : "inactive",
                       )}`}
                     >
                       {user.user.is_active ? "Active" : "Inactive"}
