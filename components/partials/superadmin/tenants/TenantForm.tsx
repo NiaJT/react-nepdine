@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Calendar24 } from "@/components/ui/date-time-picker";
-import { tenantSchema } from "../../../../../validation-schema/superadmin/tenants/tenantsSchema";
+import { tenantSchema } from "@/validation-schema/superadmin/tenants/tenantsSchema";
 
 export type TenantFormValues = z.infer<typeof tenantSchema>;
 

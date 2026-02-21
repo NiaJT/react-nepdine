@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddUserToTenant } from "@/hooks/superAdmin/useTenants";
@@ -23,10 +22,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { addUserToTenantSchema } from "../../../../../validation-schema/superadmin/tenants/tenantsSchema";
+import { addUserToTenantSchema } from "@/validation-schema/superadmin/tenants/tenantsSchema";
 import z from "zod";
-import { useParams } from "next/navigation";
-import { User } from "@/hooks/superAdmin/useTenants";
+import { useParams } from "react-router-dom";
+import type { User } from "@/hooks/superAdmin/useTenants";
 
 type AddUserFormValues = z.infer<typeof addUserToTenantSchema>;
 export function AddUserForm() {

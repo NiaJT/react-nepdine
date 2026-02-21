@@ -1,6 +1,6 @@
 "use client";
 
-import { Tenant } from "@/hooks/superAdmin/useTenants";
+import type { Tenant } from "@/hooks/superAdmin/useTenants";
 import {
   Table,
   TableBody,

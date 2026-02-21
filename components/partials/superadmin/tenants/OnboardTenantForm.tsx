@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import { OnboardTenantPayload } from "@/hooks/superAdmin/useTenants";
+import type { OnboardTenantPayload } from "@/hooks/superAdmin/useTenants";
 
 import {
   Form,
@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { onboardTenantSchema } from "../../../../../validation-schema/superadmin/tenants/tenantsSchema";
+import { onboardTenantSchema } from "@/validation-schema/superadmin/tenants/tenantsSchema";
 import { Calendar24 } from "@/components/ui/date-time-picker";
 
 type FormValues = z.infer<typeof onboardTenantSchema>;
