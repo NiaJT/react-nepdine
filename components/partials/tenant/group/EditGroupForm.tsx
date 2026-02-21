@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Room, Group } from "@/lib/types/globalTypes/types";
+import type { Room, Group } from "@/lib/types/globalTypes/types";
 import { Input } from "@/components/ui/input";
 import FloatingSearchDropdown from "@/components/ui/multi-select-dropdown";
 import { Icon } from "@iconify/react";
@@ -46,12 +46,12 @@ export default function EditGroupForm({
   // Prefill rooms and tables once on mount
   useEffect(() => {
     const tableIds = group.tables?.map((t) => t.id) || [];
-    setSelectedTables(tableIds);
+    queueMicrotask(() => setSelectedTables(tableIds));
 
     const prefilledRooms = rooms.filter((room) =>
-      room.tables?.some((t) => tableIds.includes(t.id))
+      room.tables?.some((t) => tableIds.includes(t.id)),
     );
-    setSelectedRooms(prefilledRooms);
+    queueMicrotask(() => setSelectedRooms(prefilledRooms));
   }, [group, rooms]);
 
   const onSubmit = (data: FormValues) => {
@@ -75,7 +75,7 @@ export default function EditGroupForm({
           onClose?.();
           reset();
         },
-      }
+      },
     );
   };
 
@@ -116,8 +116,8 @@ export default function EditGroupForm({
               // Remove tables not in selected rooms
               setSelectedTables((prev) =>
                 prev.filter((t) =>
-                  rooms.some((r) => r.tables?.some((x) => x.id === t))
-                )
+                  rooms.some((r) => r.tables?.some((x) => x.id === t)),
+                ),
               );
             }}
           />
@@ -169,7 +169,7 @@ export default function EditGroupForm({
                         setSelectedTables((prev) =>
                           isSelected
                             ? prev.filter((x) => x !== t.id)
-                            : [...prev, t.id]
+                            : [...prev, t.id],
                         );
                       }}
                       className={`w-12 h-12 p-2 flex items-center justify-center text-xs font-medium border rounded-lg shadow-lg transition-colors duration-200

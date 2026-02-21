@@ -1,6 +1,6 @@
 "use client";
 
-import { Room } from "@/lib/types/globalTypes/types";
+import type { Room } from "@/lib/types/globalTypes/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -63,7 +63,7 @@ export default function OpenGroupForm({
           setSelectedTables([]);
           reset();
         },
-      }
+      },
     );
   };
 
@@ -105,8 +105,8 @@ export default function OpenGroupForm({
               setSelectedRooms(rooms);
               setSelectedTables((prev) =>
                 prev.filter((t) =>
-                  rooms.some((r) => r.tables?.find((x) => x.id === t))
-                )
+                  rooms.some((r) => r.tables?.find((x) => x.id === t)),
+                ),
               );
             }}
           />
@@ -162,7 +162,7 @@ export default function OpenGroupForm({
                       setSelectedTables((prev) =>
                         isSelected
                           ? prev.filter((x) => x !== t.id)
-                          : [...prev, t.id]
+                          : [...prev, t.id],
                       );
                     }}
                     className={`w-12 h-12 p-2 flex items-center justify-center text-xs font-medium border rounded-lg shadow-sm transition-colors
