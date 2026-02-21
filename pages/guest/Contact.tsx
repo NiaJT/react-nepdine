@@ -9,15 +9,9 @@ import Footer from "../../components/guestComponents/Footer";
 import Image from "@/components/ui/image";
 
 import { Icon } from "@iconify/react";
-import { Poppins } from "next/font/google";
-import { Feedback, useAddFeedback } from "@/hooks/useFeedbacks";
-
-// Load font
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
-});
+import { PoppinsFont } from "@/lib/font";
+import { useAddFeedback } from "@/hooks/useFeedbacks";
+import type { Feedback } from "@/hooks/useFeedbacks";
 
 // ✅ Define Zod schema for validation
 const feedbackSchema = z.object({
@@ -47,7 +41,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col ${poppins.className}`}>
+    <div className={`min-h-screen flex flex-col ${PoppinsFont.className}`}>
       <Navbar />
 
       <main className="flex-1 flex items-center justify-center px-4 sm:px-8 py-8 sm:py-16 bg-gray-50">

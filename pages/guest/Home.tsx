@@ -1,26 +1,13 @@
 import Image from "@/components/ui/image";
 
 import Navbar from "../../components/guestComponents/Navbar";
-import { Poppins, Roboto } from "next/font/google";
+import { PoppinsFont, RobotoFont } from "@/lib/font";
 import TestimonialsSlider from "../../components/guestComponents/TestimonialsSlider";
 import Footer from "../../components/guestComponents/Footer";
 
-// Load Poppins
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
-});
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-roboto",
-});
-
 export default function HomePage() {
   return (
-    <div className={`min-h-screen flex flex-col ${poppins.className}`}>
+    <div className={`min-h-screen flex flex-col ${PoppinsFont.className}`}>
       <Navbar />
 
       <main className="flex-1 flex items-start px-8 py-16 max-w-full mx-auto w-full relative">
@@ -255,7 +242,7 @@ export default function HomePage() {
         {/* --- SECOND SECTION (Testimonials) --- */}
         <section className="px-8 py-32  mx-auto relative z-10 ">
           <h2
-            className={`text-4xl sm:text-5xl font-semibold mb-4 text-center ${roboto.className}`}
+            className={`text-4xl sm:text-5xl font-semibold mb-4 text-center ${RobotoFont.className}`}
           >
             Testimonials
           </h2>

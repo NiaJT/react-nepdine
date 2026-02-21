@@ -3,9 +3,7 @@ import Footer from "../../components/guestComponents/Footer";
 import Image from "@/components/ui/image";
 
 import PlanToggle from "../../components/guestComponents/PillToggle";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { InterFont } from "@/lib/font";
 
 export default function Page() {
   const plans = [
@@ -51,7 +49,7 @@ export default function Page() {
   ];
 
   return (
-    <div className={`min-h-screen flex flex-col ${inter.className}`}>
+    <div className={`min-h-screen flex flex-col ${InterFont.className}`}>
       <Navbar />
 
       {/* Orange Image at top-left */}

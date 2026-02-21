@@ -1,16 +1,7 @@
 import Navbar from "../../components/guestComponents/Navbar";
-import { Poppins, Inter } from "next/font/google";
+import { PoppinsFont, InterFont } from "@/lib/font";
 import Footer from "../../components/guestComponents/Footer";
 import Image from "@/components/ui/image";
-
-// Load fonts
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
-});
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Page() {
   const features = [
@@ -65,7 +56,7 @@ export default function Page() {
   ];
 
   return (
-    <div className={`min-h-screen flex flex-col ${poppins.className}`}>
+    <div className={`min-h-screen flex flex-col ${PoppinsFont.className}`}>
       <Navbar />
 
       {/* Orange Image at top-left */}
@@ -82,11 +73,11 @@ export default function Page() {
       <main className="flex-1 flex flex-col px-8 py-16 max-w-6xl mx-auto w-full relative">
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-12">
-          <h1 className={`text-4xl font-bold mb-4 ${inter.className}`}>
+          <h1 className={`text-4xl font-bold mb-4 ${InterFont.className}`}>
             Features
           </h1>
           <p
-            className={`sm:text-lg text-md text-[#22262AE5] font-medium mb-8 ${inter.className}`}
+            className={`sm:text-lg text-md text-[#22262AE5] font-medium mb-8 ${InterFont.className}`}
           >
             From order management to analytics, everything you need in one
             system.
