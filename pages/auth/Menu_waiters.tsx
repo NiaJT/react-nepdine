@@ -12,16 +12,15 @@ import Image from "@/components/ui/image";
 
 import { axiosInstance } from "@/lib/axios.instance";
 import { useQuery } from "@tanstack/react-query";
-import { MenuItem } from "@/lib/types/globalTypes/types";
+import type { MenuItem } from "@/lib/types/globalTypes/types";
 import { Icon } from "@iconify/react";
-import { TableFormValues } from "../../../../validation-schema/tableSchema";
+import type { TableFormValues } from "@/validation-schema/tableSchema";
 import { Input } from "@/components/ui/input";
-import { CreateOrderValues } from "../../../../validation-schema/orderSchema";
+import type { CreateOrderValues } from "@/validation-schema/orderSchema";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { MenuIngredientFormValues } from "../../../../validation-schema/menuIngredientsSchema";
-import { useSearchParams } from "next/navigation";
-import { useUser } from "@/components/guards/UserContext";
+import type { MenuIngredientFormValues } from "@/validation-schema/menuIngredientsSchema";
+import { useUser } from "@/guards/useUser";
 import MenuPageSkeleton from "@/components/LoadingPages/MenuLoad";
 import {
   Dialog,
@@ -55,14 +54,13 @@ export default function MenuPage() {
   >({});
   const [showKOTOverlay, setShowKOTOverlay] = useState(false);
 
-  const [showKOT, setShowKOT] = useState(false);
   const [kotData, setKotData] = useState<KOTProps | null>(null);
 
   const [note, setNote] = useState("");
-  const [lastKOT, setLastKOT] = useState<string | null>(null);
+  const [, setLastKOT] = useState<string | null>(null);
 
-  const searchParams = useSearchParams();
-  const tableId = searchParams.get("tableId") || "";
+  const tableId =
+    new URLSearchParams(window.location.search).get("tableId") || "";
   const [filterCategory, setFilterCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -588,7 +586,9 @@ export default function MenuPage() {
                                 variant="outline"
                                 size="icon"
                                 className="h-4 w-4 rounded-full text-xs font-bold hover:bg-zinc-300"
-                                onClick={(e) => {
+                                onClick={(
+                                  e: React.MouseEvent<HTMLButtonElement>,
+                                ) => {
                                   e.stopPropagation();
                                   decrease(id);
                                 }}
@@ -604,7 +604,9 @@ export default function MenuPage() {
                                 variant="outline"
                                 size="icon"
                                 className="h-4 w-4 rounded-full text-xs font-bold hover:bg-zinc-300"
-                                onClick={(e) => {
+                                onClick={(
+                                  e: React.MouseEvent<HTMLButtonElement>,
+                                ) => {
                                   e.stopPropagation();
                                   increase(id);
                                 }}
@@ -826,7 +828,9 @@ export default function MenuPage() {
                                   side="bottom"
                                   align="end"
                                   className="z-50 mt-1 max-w-[60vw] sm:max-w-[200px]  order rounded-lg shadow-md p-1.5 sm:p-0 bg-white/2 backdrop-blur-xs"
-                                  onClick={(e) => e.stopPropagation()}
+                                  onClick={(
+                                    e: React.MouseEvent<HTMLButtonElement>,
+                                  ) => e.stopPropagation()}
                                 >
                                   <MenuIngredientsList
                                     cardId={m.id}
@@ -871,7 +875,9 @@ export default function MenuPage() {
                                   variant="outline"
                                   size="icon"
                                   className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 rounded-full text-[9px] sm:text-xs"
-                                  onClick={(e) => {
+                                  onClick={(
+                                    e: React.MouseEvent<HTMLButtonElement>,
+                                  ) => {
                                     e.stopPropagation();
                                     decrease(m.id);
                                   }}
@@ -887,7 +893,9 @@ export default function MenuPage() {
                                   variant="outline"
                                   size="icon"
                                   className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 rounded-full text-[9px] sm:text-xs hover:bg-zinc-300"
-                                  onClick={(e) => {
+                                  onClick={(
+                                    e: React.MouseEvent<HTMLButtonElement>,
+                                  ) => {
                                     e.stopPropagation();
                                     increase(m.id);
                                   }}
@@ -1084,7 +1092,9 @@ export default function MenuPage() {
             <DropdownMenuItem
               key={ingredient.id}
               asChild
-              onSelect={(e) => e.preventDefault()}
+              onSelect={(e: React.MouseEvent<HTMLButtonElement>) =>
+                e.preventDefault()
+              }
             >
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <input

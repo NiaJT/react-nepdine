@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, Path, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import type { Path } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useRouter } from "./../../lib/useRouter";
@@ -14,10 +15,8 @@ import Image from "@/components/ui/image";
 
 import { uploadToCloudinary } from "@/components/shared/UploadToCloudinary";
 import { z } from "zod";
-import {
-  CreateRestaurantPayload,
-  useCreateRestaurant,
-} from "@/hooks/auth/useCreateRestaurant";
+import { useCreateRestaurant } from "@/hooks/auth/useCreateRestaurant";
+import type { CreateRestaurantPayload } from "@/hooks/auth/useCreateRestaurant";
 import {
   Select,
   SelectContent,
@@ -25,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FieldError } from "react-hook-form";
+import type { FieldError } from "react-hook-form";
 
 // ------------------- ZOD SCHEMA -------------------
 const userSchema = z.object({

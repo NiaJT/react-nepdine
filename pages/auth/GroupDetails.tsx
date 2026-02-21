@@ -1,7 +1,8 @@
 "use client";
 import { Icon } from "@iconify/react";
 
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "@/lib/useRouter";
+import { useParams } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
 import Image from "@/components/ui/image";
 import { Button } from "@/components/ui/button";
@@ -16,14 +17,19 @@ import { useOrders } from "@/hooks/auth/useOrders";
 import { useWaiters } from "@/hooks/auth/useWaiters";
 import { useMenu } from "@/hooks/auth/useMenu";
 import GroupDetailPageSkeleton from "@/components/LoadingPages/GroupIdLoad";
-import { OrderLine, Waiter } from "@/lib/types/globalTypes/types";
+import type {
+  Order,
+  OrderLine,
+  Table,
+  Waiter,
+} from "@/lib/types/globalTypes/types";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BillData } from "../../lib/thermalBill";
+import type { BillData } from "../../lib/thermalBill";
 import { handlePrint } from "@/lib/api/superadmin/printbill";
 import {
   Dialog,
@@ -54,14 +60,18 @@ export interface BillProps {
 }
 
 export default function GroupDetailPage() {
-  const [restaurantId, setRestaurantId] = useState<string>("");
   const [waiterFilter, setWaiterFilter] = useState<string>("all");
-  const [discount, setDiscount] = useState<string>("0");
-  const [serviceCharge, setServiceCharge] = useState<string>("0");
-  const [tax, setTax] = useState<string>("0");
-  const [restaurantName, setRestaurantName] = useState("");
-  const [restaurantLocation, setRestaurantLocation] = useState("");
-  const [currentDateTime, setCurrentDateTime] = useState("");
+  const restaurantName =
+    localStorage.getItem("restaurant_name") || "Unknown Restaurant";
+  const [restaurantId] = useState(() =>
+    typeof window !== "undefined"
+      ? localStorage.getItem("restaurant_id") || ""
+      : "",
+  );
+
+  const restaurantLocation =
+    localStorage.getItem("restaurant_location") || "Unknown Location";
+
   const router = useRouter();
   const params = useParams();
   const groupId = (params?.id as string) ?? "";
@@ -87,12 +97,12 @@ export default function GroupDetailPage() {
     groupLoading || ordersLoading || waitersLoading || menuLoading;
 
   const groupOrders = useMemo(
-    () => ordersData.filter((o) => o.group_id === groupId),
+    () => ordersData.filter((o: Order) => o.group_id === groupId),
     [ordersData, groupId],
   );
   const groupWaiters = useMemo(() => {
     const waiterIds = Array.from(
-      new Set(groupOrders.map((o) => o.waiter_id).filter(Boolean)),
+      new Set(groupOrders.map((o: Order) => o.waiter_id).filter(Boolean)),
     );
     return waiters.filter((w: Waiter) => waiterIds.includes(w.id));
   }, [groupOrders, waiters]);
@@ -100,8 +110,8 @@ export default function GroupDetailPage() {
   const filteredOrders = useMemo(() => {
     if (waiterFilter === "all") return groupOrders;
     if (waiterFilter === "unassigned")
-      return groupOrders.filter((o) => !o.waiter_id);
-    return groupOrders.filter((o) => o.waiter_id === waiterFilter);
+      return groupOrders.filter((o: Order) => !o.waiter_id);
+    return groupOrders.filter((o: Order) => o.waiter_id === waiterFilter);
   }, [groupOrders, waiterFilter]);
   useEffect(() => {
     if (window.electronAPI) {
@@ -111,16 +121,9 @@ export default function GroupDetailPage() {
     }
   }, []);
 
-  useEffect(() => {
-    setRestaurantName(
-      localStorage.getItem("restaurant_name") || "Unknown Restaurant",
-    );
-    setRestaurantLocation(
-      localStorage.getItem("restaurant_location") || "Unknown Location",
-    );
-
+  const [currentDateTime] = useState(() => {
     const now = new Date();
-    const formattedDateTime = now.toLocaleString("en-GB", {
+    return now.toLocaleString("en-GB", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -129,19 +132,19 @@ export default function GroupDetailPage() {
       second: "2-digit",
       hour12: true,
     });
-    setCurrentDateTime(formattedDateTime);
-  }, []);
+  });
+  const [discount, setDiscount] = useState<string>("0");
+  const [serviceCharge, setServiceCharge] = useState<string>("0");
+  const [tax, setTax] = useState<string>("0");
 
   useEffect(() => {
-    setRestaurantId(localStorage.getItem("restaurant_id") || "");
-  }, []);
+    if (!bill) return;
 
-  useEffect(() => {
-    if (bill) {
-      setDiscount(bill.discount_total || "0");
-      setServiceCharge(bill.service_charge || "0");
-      setTax(bill.tax_total || "0");
-    }
+    setDiscount((prev) => (prev === "0" ? (bill.discount_total ?? "0") : prev));
+    setServiceCharge((prev) =>
+      prev === "0" ? (bill.service_charge ?? "0") : prev,
+    );
+    setTax((prev) => (prev === "0" ? (bill.tax_total ?? "0") : prev));
   }, [bill]);
 
   const discountNum = parseFloat(discount) || 0;
@@ -202,7 +205,7 @@ export default function GroupDetailPage() {
                       string,
                       { name: string; tables: string[] }
                     > = {};
-                    group.tables.forEach((table) => {
+                    group.tables.forEach((table: Table) => {
                       if (!tablesByRoom[table.room_id]) {
                         tablesByRoom[table.room_id] = {
                           name: table.room_name ?? "Unknown Room",
@@ -275,7 +278,7 @@ export default function GroupDetailPage() {
                 <DropdownMenuItem onClick={() => setWaiterFilter("all")}>
                   All waiters
                 </DropdownMenuItem>
-                {groupOrders.some((o) => !o.waiter_id) && (
+                {groupOrders.some((o: Order) => !o.waiter_id) && (
                   <DropdownMenuItem
                     onClick={() => setWaiterFilter("unassigned")}
                   >
@@ -297,7 +300,7 @@ export default function GroupDetailPage() {
 
         <CardContent className="flex flex-col h-[50vh]">
           <div className="flex-1 overflow-y-auto space-y-1">
-            {filteredOrders.map((o) => {
+            {filteredOrders.map((o: Order) => {
               const item = menu.find((m: OrderLine) => m.id === o.item_id);
               return (
                 <div
@@ -441,7 +444,7 @@ export default function GroupDetailPage() {
                         serviceCharge: serviceChargeNum,
                         tax: taxAmount,
                         total: finalTotal,
-                        orders: groupOrders.map((o) => {
+                        orders: groupOrders.map((o: Order) => {
                           const item = menu.find(
                             (m: OrderLine) => m.id === o.item_id,
                           );
@@ -469,7 +472,7 @@ export default function GroupDetailPage() {
                             serviceCharge: serviceChargeNum,
                             tax: taxAmount,
                             total: finalTotal,
-                            orders: groupOrders.map((o) => {
+                            orders: groupOrders.map((o: Order) => {
                               const item = menu.find(
                                 (m: OrderLine) => m.id === o.item_id,
                               );

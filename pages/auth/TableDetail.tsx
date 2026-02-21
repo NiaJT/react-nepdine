@@ -1,13 +1,14 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "@/lib/useRouter";
 import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "@/components/ui/image";
 
 import { Icon } from "@iconify/react";
-import { Table } from "@/lib/types/globalTypes/types";
+import type { Table } from "@/lib/types/globalTypes/types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,16 +20,16 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios.instance";
 import axios from "axios";
 
-import { tableSchema } from "../../../../../validation-schema/tableSchema";
+import type { tableSchema } from "@/validation-schema/tableSchema";
 import {
-  CreateOrderValues,
   orderResponseSchema,
   ordersResponseSchema,
-} from "../../../../../validation-schema/orderSchema";
-import { MenuFormValues } from "../../../../../validation-schema/menuSchema";
+} from "@/validation-schema/orderSchema";
+import type { CreateOrderValues } from "@/validation-schema/orderSchema";
+import type { MenuFormValues } from "@/validation-schema/menuSchema";
 import React from "react";
 import { toast } from "react-hot-toast";
-import { MenuIngredientFormValues } from "../../../../../validation-schema/menuIngredientsSchema";
+import type { MenuIngredientFormValues } from "@/validation-schema/menuIngredientsSchema";
 import { useGroupsList } from "@/hooks/auth/useGroups";
 import { useWaiters } from "@/hooks/auth/useWaiters";
 import { useOrders } from "@/hooks/auth/useOrders";
@@ -51,12 +52,13 @@ export default function TableDetailPage() {
   // const addOrderByWaiter = useAppStore((s) => s.addOrderByWaiter);
   // const createKOT = useAppStore((s) => s.createKOT);
   // const hydrated = useAppStore((s) => s.hydrated);
-  const [restaurantId, setRestaurantId] = useState("");
 
-  useEffect(() => {
-    const id = localStorage.getItem("restaurant_id") || "";
-    setRestaurantId(id);
-  }, []);
+  const [restaurantId] = useState(() =>
+    typeof window !== "undefined"
+      ? localStorage.getItem("restaurant_id") || ""
+      : "",
+  );
+
   // const [waiterFilter, setWaiterFilter] = useState("all");
   // const [groupFilter, setGroupFilter] = useState("all");
   // const [fromDate, setFromDate] = useState("");
@@ -263,7 +265,6 @@ function OrderMenu({
     Record<string, { name: string; image: string; qty: number; note?: string }>
   >({});
   const [note, setNote] = useState("");
-  const [lastKOT, setLastKOT] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [foodFilters, setFoodFilters] = useState<Record<string, string[]>>({});
@@ -471,13 +472,6 @@ function OrderMenu({
     await refetchOrders();
     return res.data; // this could be single or array
   };
-  const sendKOT = () => {
-    if (!lastKOTData) {
-      toast.error("No KOT data available to print");
-      return;
-    }
-    setShowKOTOverlay(true);
-  };
 
   const handleSendToKitchen = async () => {
     if (!waiterId) {
@@ -537,7 +531,6 @@ function OrderMenu({
         return;
       }
 
-      setLastKOT(orderId);
       const ordersForPdf = Object.entries(cart).map(
         ([itemId, { qty, note }]) => {
           const menuItem = menu.find((m) => m.id === itemId);
@@ -575,7 +568,6 @@ function OrderMenu({
 
       clearCart();
       setNote("");
-      setLastKOT(order.id || "");
 
       toast.success("Order sent to kitchen!");
       router.push(`/tables/${tableId}`);
@@ -835,7 +827,9 @@ function OrderMenu({
                         side="bottom"
                         align="end"
                         className="z-50 mt-1 max-w-[60vw] sm:max-w-[200px]  order rounded-lg shadow-md p-1.5 sm:p-0 bg-white/2 backdrop-blur-xs"
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                          e.stopPropagation()
+                        }
                       >
                         <MenuIngredientsList
                           cardId={m.id}
@@ -882,7 +876,7 @@ function OrderMenu({
                         variant="outline"
                         size="icon"
                         className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 rounded-full text-[9px] sm:text-xs"
-                        onClick={(e) => {
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                           e.stopPropagation();
                           decrease(m.id);
                         }}
@@ -898,7 +892,7 @@ function OrderMenu({
                         variant="outline"
                         size="icon"
                         className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 rounded-full text-[9px] sm:text-xs hover:bg-zinc-300"
-                        onClick={(e) => {
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                           e.stopPropagation();
                           increase(m.id);
                         }}
@@ -1078,7 +1072,9 @@ function OrderMenu({
                             variant="outline"
                             size="icon"
                             className="h-4 w-4 rounded-full text-xs font-bold hover:bg-zinc-300"
-                            onClick={(e) => {
+                            onClick={(
+                              e: React.MouseEvent<HTMLButtonElement>,
+                            ) => {
                               e.stopPropagation();
                               decrease(id);
                             }}
@@ -1094,7 +1090,9 @@ function OrderMenu({
                             variant="outline"
                             size="icon"
                             className="h-4 w-4 rounded-full text-xs font-bold hover:bg-zinc-300"
-                            onClick={(e) => {
+                            onClick={(
+                              e: React.MouseEvent<HTMLButtonElement>,
+                            ) => {
                               e.stopPropagation();
                               increase(id);
                             }}
@@ -1255,7 +1253,9 @@ function OrderMenu({
                             variant="outline"
                             size="icon"
                             className="h-5 w-5 rounded-full text-xs font-bold hover:bg-zinc-300"
-                            onClick={(e) => {
+                            onClick={(
+                              e: React.MouseEvent<HTMLButtonElement>,
+                            ) => {
                               e.stopPropagation();
                               decrease(id);
                             }}
@@ -1271,7 +1271,9 @@ function OrderMenu({
                             variant="outline"
                             size="icon"
                             className="h-5 w-5 rounded-full text-xs font-bold hover:bg-zinc-300"
-                            onClick={(e) => {
+                            onClick={(
+                              e: React.MouseEvent<HTMLButtonElement>,
+                            ) => {
                               e.stopPropagation();
                               increase(id);
                             }}
@@ -1615,7 +1617,9 @@ function OrderMenu({
             <DropdownMenuItem
               key={ingredient.id}
               asChild
-              onSelect={(e) => e.preventDefault()}
+              onSelect={(e: React.MouseEvent<HTMLButtonElement>) =>
+                e.preventDefault()
+              }
               className="hover:bg-transparent focus:bg-transparent"
             >
               <label className="flex items-center gap-1 sm:gap-2 cursor-pointer select-none hover:text-inherit hover:bg-transparent">

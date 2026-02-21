@@ -3,8 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "@/components/ui/image";
-
-import Link from "next/link";
 import {
   Dialog,
   DialogContent,
@@ -20,14 +18,16 @@ import { axiosInstance } from "@/lib/axios.instance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import z from "zod";
 import { v4 as uuidv4 } from "uuid";
-import { roomSchema } from "../../../../validation-schema/roomSchema";
-import { tableSchema } from "../../../../validation-schema/tableSchema";
+import { roomSchema } from "@/validation-schema/roomSchema";
+import { tableSchema } from "@/validation-schema/tableSchema";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { ApiError } from "next/dist/server/api-utils";
+
 import { useAddTable, useRooms, useTables } from "@/hooks/auth/useTables";
-import { useUser } from "@/components/guards/UserContext";
+import { useUser } from "@/guards/useUser";
 import TablePageSkeleton from "@/components/LoadingPages/TableLoad";
+import type { ApiError } from "@/lib/types/globalTypes/api-response";
+import Link from "@/lib/link";
 
 type RoomFormValues = z.infer<typeof roomSchema>;
 type TableFormValues = z.infer<typeof tableSchema>;
@@ -92,12 +92,14 @@ export default function TablePage() {
       },
 
       onError: (error: AxiosError<ApiError>) => {
-        const message = error.response?.data?.message || "Failed to add room";
+        const message = error.response?.data || "Failed to add room";
         console.error(
           "Failed to add room:",
           error.response?.data || error.message,
         );
-        toast.error(message);
+        toast.error(
+          typeof message === "string" ? message : "Failed to add room",
+        );
       },
     });
   }
@@ -560,7 +562,7 @@ export default function TablePage() {
                   {editingId === t.id && (
                     <Dialog
                       open={true}
-                      onOpenChange={(v) => !v && setEditingId(null)}
+                      onOpenChange={(v: unknown) => !v && setEditingId(null)}
                     >
                       <DialogOverlay className="bg-gray-200/70 backdrop-blur-sm" />
                       <DialogContent className="sm:max-w-[600px] rounded-xl shadow-lg">

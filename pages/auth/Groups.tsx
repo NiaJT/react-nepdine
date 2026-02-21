@@ -1,9 +1,9 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Group } from "@/lib/types/globalTypes/types";
+import Link from "@/lib/link";
+import { useState } from "react";
+import type { Group, Table } from "@/lib/types/globalTypes/types";
 import { Icon } from "@iconify/react";
 import Image from "@/components/ui/image";
 
@@ -18,13 +18,13 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import GroupsPageSkeleton from "@/components/LoadingPages/GroupLoad";
 
 export default function GroupsPage() {
-  const [restaurantId, setRestaurantId] = useState("");
   const [showEdit, setShowEdit] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>();
-  useEffect(() => {
-    const id = localStorage.getItem("restaurant_id") || "";
-    setRestaurantId(id);
-  }, []);
+  const [restaurantId] = useState(() =>
+    typeof window !== "undefined"
+      ? localStorage.getItem("restaurant_id") || ""
+      : "",
+  );
   const [showAddCard, setShowAddCard] = useState(false);
   const { data: groups, isPending } = useGroupsList(restaurantId);
   const { mutate: deleteGroup } = useDeleteGroup(restaurantId);
@@ -96,14 +96,14 @@ export default function GroupsPage() {
           <div className="space-y-2">
             {groups &&
               groups
-                .filter((g) => !g.closed_at)
-                .map((g) => {
+                .filter((g: Group) => !g.closed_at)
+                .map((g: Group) => {
                   const tablesByRoom: Record<
                     string,
                     { name: string; tables: string[] }
                   > = {};
 
-                  g.tables?.forEach((t) => {
+                  g.tables?.forEach((t: Table) => {
                     if (!tablesByRoom[t.room_id]) {
                       tablesByRoom[t.room_id] = {
                         name: t.room_name ?? "",
@@ -161,7 +161,7 @@ export default function GroupsPage() {
                           variant="ghost"
                           size="sm"
                           className="p-1 cursor-pointer"
-                          onClick={(e) => {
+                          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                             e.preventDefault();
                             e.stopPropagation();
                             setSelectedGroup(g);
@@ -174,7 +174,7 @@ export default function GroupsPage() {
                           variant="ghost"
                           size="sm"
                           className="p-1 text-red-500 cursor-pointer"
-                          onClick={(e) => {
+                          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                             e.preventDefault();
                             e.stopPropagation();
                             deleteGroup(g.id);
@@ -186,11 +186,12 @@ export default function GroupsPage() {
                     </Link>
                   );
                 })}
-            {groups && groups.filter((g) => !g.closed_at).length === 0 && (
-              <div className="text-sm text-zinc-600 font-medium text-center">
-                No active groups.
-              </div>
-            )}
+            {groups &&
+              groups.filter((g: Group) => !g.closed_at).length === 0 && (
+                <div className="text-sm text-zinc-600 font-medium text-center">
+                  No active groups.
+                </div>
+              )}
           </div>
         </CardContent>
       </Card>
