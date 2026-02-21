@@ -15,7 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ProvidedUser } from "@/hooks/superAdmin/useUsers";
+import type { ProvidedUser } from "@/hooks/superAdmin/useUsers";
 
 interface RestaurantUsersTableProps {
   users: ProvidedUser[];
