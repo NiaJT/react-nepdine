@@ -28,12 +28,12 @@ export interface OrderLine {
 }
 export interface Order {
   id: string;
-  itemId: string;
+  item_id: string;
   quantity: number;
-  waiterId?: string;
+  waiter_id?: string;
   currentGroupId?: ID;
   createdAt: string;
-  groupId?: string;
+  group_id?: string;
   note?: string;
 }
 
@@ -101,17 +101,16 @@ export interface BalanceEntry {
   orderIds: ID[];
 }
 
-
 export type WaiterStatus = "Active" | "Inactive" | "In Break";
 export type WaiterShift = "Morning" | "Evening" | "Night";
 
 export interface Waiter {
   id: ID;
   name: string;
-  rating?:number;
-  status?:WaiterStatus;
-  mobile?:number;
-  shift?:WaiterShift;
+  rating?: number;
+  status?: WaiterStatus;
+  mobile?: number;
+  shift?: WaiterShift;
 }
 
 export interface KOT {
