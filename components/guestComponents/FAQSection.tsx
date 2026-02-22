@@ -3,13 +3,13 @@
 import { useState } from "react";
 import Image from "@/components/ui/image";
 
-import { Inter } from "next/font/google";
+import { InterFont } from "@/lib/font";
 import FAQAccordion from "./FAQAccordion";
-import { Faq, useAddFaq } from "@/hooks/useFaq";
+import { useAddFaq } from "@/hooks/useFaq";
+import type { Faq } from "@/hooks/useFaq";
+
 import { Icon } from "@iconify/react";
 import sendIcon from "@iconify-icons/mdi/send";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export default function FAQSection() {
   const [question, setQuestion] = useState(""); // ✅ store user input
@@ -35,7 +35,7 @@ export default function FAQSection() {
 
   return (
     <div
-      className={`${inter.className} flex flex-col md:flex-row w-full max-w-6xl gap-10 mx-auto px-4 md:px-0 mb-10`}
+      className={`${InterFont.className} flex flex-col md:flex-row w-full max-w-6xl gap-10 mx-auto px-4 md:px-0 mb-10`}
     >
       <FAQAccordion />
 
