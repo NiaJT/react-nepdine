@@ -3,10 +3,10 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios.instance";
-import { useRouter } from "./../../lib/useRouter";
+import { useRouter } from "@/lib/useRouter";
 
 import toast from "react-hot-toast";
-import { useUser } from "@/components/guards/UserContext";
+import { useUser } from "@/guards/useUser";
 
 export const useLogout = () => {
   const router = useRouter();
