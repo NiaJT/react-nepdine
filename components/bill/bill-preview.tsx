@@ -1,4 +1,4 @@
-import { BillData } from "@/lib/thermalBill";
+import type { BillData } from "@/lib/thermalBill";
 
 export function BillPreview({ bill }: { bill: BillData }) {
   return (
