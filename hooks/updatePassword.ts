@@ -2,13 +2,13 @@ import { useMutation } from "@tanstack/react-query";
 import {
   changePasswordSchema,
   forgotPasswordSchema,
-} from "../../validation-schema/changePasswordSchema";
+} from "@/validation-schema/changePasswordSchema";
 import { axiosInstance } from "@/lib/axios.instance";
 import toast from "react-hot-toast";
 import { getApiErrorMessage } from "@/lib/types/globalTypes/api-response";
 import z from "zod";
 import { useLogout } from "./logout";
-import { useRouter } from "./../../lib/useRouter";
+import { useRouter } from "@/lib/useRouter";
 
 type ChangePasswordFormValues = z.infer<typeof changePasswordSchema>;
 type ChangePasswordPayload = ChangePasswordFormValues & {
