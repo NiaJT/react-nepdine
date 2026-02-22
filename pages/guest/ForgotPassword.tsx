@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import PublicNavbar from "@/components/layout/guest/guestNavbar";
+import PublicNavbar from "@/components/Bars/guest/guestNavbar";
 import { forgotPasswordSchema } from "@/validation-schema/changePasswordSchema";
 import { ResetPassword } from "@/hooks/updatePassword";
 
