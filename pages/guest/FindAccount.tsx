@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ForgotPasswordOtp } from "@/hooks/updatePassword";
-import PublicNavbar from "@/components/layout/guest/guestNavbar";
+import PublicNavbar from "@/components/Bars/guest/guestNavbar";
 
 const emailSchema = z.object({
   email: z.email("Please enter a valid email"),
@@ -42,7 +42,7 @@ export default function ForgotPasswordEmailPage() {
           sessionStorage.setItem("email", data.email);
         },
         onSettled: () => setIsSubmitting(false),
-      }
+      },
     );
   };
 
