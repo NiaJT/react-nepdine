@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/lib/axios.instance";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { TableFormValues } from "../../../validation-schema/tableSchema";
+import type { TableFormValues } from "@/validation-schema/tableSchema";
 
 export const useTables = (restaurantId: string) => {
   return useQuery({
@@ -8,7 +8,7 @@ export const useTables = (restaurantId: string) => {
     enabled: !!restaurantId,
     queryFn: async () => {
       const res = await axiosInstance.get(
-        `/restaurants/${restaurantId}/tables`
+        `/restaurants/${restaurantId}/tables`,
       );
       return res.data;
     },
@@ -30,7 +30,7 @@ export const useAddTable = (restaurantId: string) => {
     mutationFn: async (
       values: Omit<TableFormValues, "restaurant_id" | "tenant_id"> & {
         room_id: string;
-      }
+      },
     ) => {
       const restaurant_id = restaurantId;
 
@@ -42,7 +42,7 @@ export const useAddTable = (restaurantId: string) => {
 
       const res = await axiosInstance.post(
         `/restaurants/${restaurant_id}/tables`,
-        payload
+        payload,
       );
       return res.data;
     },
