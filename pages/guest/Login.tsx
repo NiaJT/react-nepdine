@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -71,7 +69,7 @@ export default function LoginPage() {
   };
 
   if (isPending) {
-    <LoadingSpinner />;
+    return <LoadingSpinner />;
   }
   return (
     <div className="flex flex-col md:flex-row min-h-[auto] md:min-h-screen">
