@@ -1,7 +1,7 @@
 // useFeedback.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios.instance";
-import { Feedback } from "@/app/superadmin/feedbacks/page";
+import type { Feedback } from "../useFeedbacks";
 import toast from "react-hot-toast";
 
 export const useGetFeedbacks = (page: number) => {
